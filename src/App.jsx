@@ -31,6 +31,7 @@ export default function App() {
   const [form, setForm] = useState({ from: "", to: "", time: "", price: "" });
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminLogin, setAdminLogin] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({name: "", email: "",password: "",});
   const [ticket, setTicket] = useState(null);
 
   const vehicleTypes = ["Bus", "Van", "Night Bus"];
@@ -209,26 +210,21 @@ const [feedbacks, setFeedbacks] = useState([
   },
 ]);
 
-async function handleRegister(e) {
+const handleRegister = async (e) => {
   e.preventDefault();
 
-  const res = await fetch(`${API}/register/`, {
+  await fetch("https://YOUR-RENDER-URL.onrender.com/api/register/", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(authForm),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    }),
   });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    alert(data.error);
-    return;
-  }
-
-  alert("Register success");
-  setAuthPage("login");
-}
-
+};
 async function handleLogin(e) {
   e.preventDefault();
 
@@ -498,97 +494,118 @@ function addSchedule(e) {
       </header>
 {/* REGISTER, LOGIN AND LOGOUT */}
 {page === "auth" && (
-  <section className="min-h-screen bg-gradient-to-br from-[#eaf8e8] via-white to-[#eaf4ff] px-4 py-10">
-    <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[36px] bg-white shadow-2xl lg:grid-cols-[1.05fr_0.95fr]">
-      {/* LEFT IMAGE SIDE */}
-      <div className="relative hidden min-h-[680px] overflow-hidden bg-green-900 lg:block">
+  <section className="min-h-screen bg-[#f3faf4] px-4 py-8">
+    <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[34px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] lg:grid-cols-[1.1fr_0.9fr]">
+
+      {/* LEFT SIDE */}
+      <div className="relative hidden min-h-[720px] overflow-hidden bg-slate-900 lg:block">
         <img
           src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600"
-          alt="Cambodia Bus"
+          alt="Cambodia Bus Express"
           className="absolute inset-0 h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-green-950/50 via-green-900/50 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-green-950/65 to-black/70" />
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-10 text-white">
-          <div className="flex items-center gap-3">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-3xl">
-              🚌
-            </div>
-
-            <div>
-              <h1 className="text-2xl font-black">Cambodia Bus Express</h1>
-              <p className="text-sm text-white/75">Safe Travel, Happy Journey</p>
-            </div>
+        <div className="absolute left-10 top-10 z-10 flex items-center gap-4">
+          <div className="grid h-16 w-16 place-items-center rounded-3xl bg-white text-4xl shadow-xl">
+            🚌
           </div>
 
           <div>
-            <span className="rounded-full bg-white/20 px-5 py-2 text-sm font-black backdrop-blur">
-              ⚡ Online Ticket Booking
-            </span>
-
-            <h2 className="mt-5 text-5xl font-black leading-tight">
-              Book your trip faster and easier.
-            </h2>
-
-            <p className="mt-4 max-w-md text-white/80">
-              Login to manage your booking, print tickets, select seats, and pay securely with KHQR.
+            <h1 className="text-3xl font-black text-white">
+              Cambodia Bus Express
+            </h1>
+            <p className="text-sm font-semibold text-white/70">
+              Safe Travel, Happy Journey
             </p>
+          </div>
+        </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-4">
-              <div className="rounded-2xl bg-white/15 p-4 backdrop-blur">
-                <h3 className="text-2xl font-black">24/7</h3>
-                <p className="text-sm text-white/70">Booking</p>
-              </div>
+        <div className="relative z-10 flex h-full flex-col justify-end p-12 text-white">
+          <div className="mb-8 flex gap-3">
+            <span className="rounded-full bg-white/15 px-5 py-2 text-sm font-black backdrop-blur">
+              ⚡ Fast Booking
+            </span>
+            <span className="rounded-full bg-green-400/20 px-5 py-2 text-sm font-black text-green-200 backdrop-blur">
+              KHQR Payment
+            </span>
+          </div>
 
-              <div className="rounded-2xl bg-white/15 p-4 backdrop-blur">
-                <h3 className="text-2xl font-black">QR</h3>
-                <p className="text-sm text-white/70">Ticket</p>
-              </div>
+          <h2 className="max-w-xl text-6xl font-black leading-[1.05]">
+            Your next trip starts here.
+          </h2>
 
-              <div className="rounded-2xl bg-white/15 p-4 backdrop-blur">
-                <h3 className="text-2xl font-black">KHQR</h3>
-                <p className="text-sm text-white/70">Payment</p>
-              </div>
+          <p className="mt-5 max-w-lg text-lg font-medium leading-8 text-white/75">
+            Register or login to book tickets, choose your seat, manage bookings,
+            and get your QR e-ticket instantly.
+          </p>
+
+          <div className="mt-10 grid max-w-xl grid-cols-3 gap-4">
+            <div className="rounded-3xl border border-white/15 bg-white/15 p-5 backdrop-blur">
+              <h3 className="text-3xl font-black">24/7</h3>
+              <p className="mt-1 text-sm font-semibold text-white/70">
+                Online Booking
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/15 bg-white/15 p-5 backdrop-blur">
+              <h3 className="text-3xl font-black">QR</h3>
+              <p className="mt-1 text-sm font-semibold text-white/70">
+                E-Ticket
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/15 bg-white/15 p-5 backdrop-blur">
+              <h3 className="text-3xl font-black">Safe</h3>
+              <p className="mt-1 text-sm font-semibold text-white/70">
+                Travel
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       {/* RIGHT FORM SIDE */}
-      <div className="p-6 md:p-10">
+      <div className="relative p-6 md:p-10 lg:p-12">
+        <div className="absolute right-8 top-8 hidden rounded-full bg-green-50 px-5 py-2 text-sm font-black text-green-700 md:block">
+          🟢 Secure Account
+        </div>
+
         <button
           type="button"
           onClick={() => setPage("home")}
-          className="mb-6 rounded-full bg-slate-100 px-5 py-2 font-bold text-slate-600 hover:bg-green-100 hover:text-green-700"
+          className="mb-8 rounded-full bg-slate-100 px-5 py-2 text-sm font-black text-slate-600 transition hover:bg-green-100 hover:text-green-700"
         >
           ← Back Home
         </button>
 
         <div className="mb-8">
-          <p className="text-sm font-black uppercase tracking-widest text-green-600">
-            Welcome
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-green-600">
+            Welcome Back
           </p>
 
-          <h2 className="mt-2 text-4xl font-black text-slate-900">
-            {authPage === "login" ? "Sign in to your account" : "Create new account"}
+          <h2 className="mt-3 text-4xl font-black leading-tight text-slate-950 md:text-5xl">
+            {authPage === "login"
+              ? "Login to your account"
+              : "Create your account"}
           </h2>
 
-          <p className="mt-3 text-slate-500">
+          <p className="mt-4 max-w-md text-base font-medium leading-7 text-slate-500">
             {authPage === "login"
-              ? "Continue booking your bus ticket with your saved account."
-              : "Register now to book tickets and manage your trips."}
+              ? "Continue your booking, check ticket history, and manage your trips."
+              : "Join Cambodia Bus Express and start booking your trip today."}
           </p>
         </div>
 
         {/* TABS */}
-        <div className="mb-8 grid grid-cols-2 rounded-2xl bg-slate-100 p-2">
+        <div className="mb-8 grid grid-cols-2 rounded-3xl bg-slate-100 p-2">
           <button
             type="button"
             onClick={() => setAuthPage("login")}
-            className={`rounded-xl py-3 font-black transition ${
+            className={`rounded-2xl py-4 font-black transition ${
               authPage === "login"
-                ? "bg-green-600 text-white shadow"
+                ? "bg-green-600 text-white shadow-lg"
                 : "text-slate-500 hover:text-green-700"
             }`}
           >
@@ -598,9 +615,9 @@ function addSchedule(e) {
           <button
             type="button"
             onClick={() => setAuthPage("register")}
-            className={`rounded-xl py-3 font-black transition ${
+            className={`rounded-2xl py-4 font-black transition ${
               authPage === "register"
-                ? "bg-green-600 text-white shadow"
+                ? "bg-green-600 text-white shadow-lg"
                 : "text-slate-500 hover:text-green-700"
             }`}
           >
@@ -615,19 +632,21 @@ function addSchedule(e) {
                 Email Address
               </label>
 
-              <div className="flex overflow-hidden rounded-2xl border bg-white shadow-sm focus-within:border-green-500">
-                <span className="grid w-14 place-items-center bg-slate-50 text-xl">
+              <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="grid w-16 place-items-center bg-slate-50 text-xl">
                   ✉️
                 </span>
 
                 <input
+                  name="email"
                   type="email"
                   placeholder="example@gmail.com"
                   value={authForm.email}
                   onChange={(e) =>
                     setAuthForm({ ...authForm, email: e.target.value })
                   }
-                  className="w-full px-4 py-4 font-semibold outline-none"
+                  className="w-full px-4 py-4 font-bold text-slate-700 outline-none"
+                  required
                 />
               </div>
             </div>
@@ -637,39 +656,44 @@ function addSchedule(e) {
                 Password
               </label>
 
-              <div className="flex overflow-hidden rounded-2xl border bg-white shadow-sm focus-within:border-green-500">
-                <span className="grid w-14 place-items-center bg-slate-50 text-xl">
+              <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="grid w-16 place-items-center bg-slate-50 text-xl">
                   🔒
                 </span>
 
                 <input
+                  name="password"
                   type="password"
                   placeholder="Enter password"
                   value={authForm.password}
                   onChange={(e) =>
                     setAuthForm({ ...authForm, password: e.target.value })
                   }
-                  className="w-full px-4 py-4 font-semibold outline-none"
+                  className="w-full px-4 py-4 font-bold text-slate-700 outline-none"
+                  required
                 />
               </div>
             </div>
 
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 font-bold text-slate-500">
-                <input type="checkbox" />
+                <input type="checkbox" className="h-4 w-4 accent-green-600" />
                 Remember me
               </label>
 
-              <button type="button" className="font-bold text-green-600">
+              <button type="button" className="font-black text-green-600">
                 Forgot password?
               </button>
             </div>
 
-            <button className="rounded-2xl bg-gradient-to-r from-green-700 to-green-500 py-4 text-lg font-black text-white shadow-xl transition hover:scale-[1.02]">
+            <button
+              type="submit"
+              className="rounded-3xl bg-gradient-to-r from-green-700 to-green-500 py-4 text-lg font-black text-white shadow-xl shadow-green-200 transition hover:scale-[1.02]"
+            >
               Login
             </button>
 
-            <p className="text-center text-sm text-slate-500">
+            <p className="text-center text-sm font-semibold text-slate-500">
               Don&apos;t have an account?{" "}
               <button
                 type="button"
@@ -687,18 +711,21 @@ function addSchedule(e) {
                 Full Name
               </label>
 
-              <div className="flex overflow-hidden rounded-2xl border bg-white shadow-sm focus-within:border-green-500">
-                <span className="grid w-14 place-items-center bg-slate-50 text-xl">
+              <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="grid w-16 place-items-center bg-slate-50 text-xl">
                   👤
                 </span>
 
                 <input
+                  name="name"
+                  type="text"
                   placeholder="Your full name"
                   value={authForm.name}
                   onChange={(e) =>
                     setAuthForm({ ...authForm, name: e.target.value })
                   }
-                  className="w-full px-4 py-4 font-semibold outline-none"
+                  className="w-full px-4 py-4 font-bold text-slate-700 outline-none"
+                  required
                 />
               </div>
             </div>
@@ -708,19 +735,21 @@ function addSchedule(e) {
                 Email Address
               </label>
 
-              <div className="flex overflow-hidden rounded-2xl border bg-white shadow-sm focus-within:border-green-500">
-                <span className="grid w-14 place-items-center bg-slate-50 text-xl">
+              <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="grid w-16 place-items-center bg-slate-50 text-xl">
                   ✉️
                 </span>
 
                 <input
+                  name="email"
                   type="email"
                   placeholder="example@gmail.com"
                   value={authForm.email}
                   onChange={(e) =>
                     setAuthForm({ ...authForm, email: e.target.value })
                   }
-                  className="w-full px-4 py-4 font-semibold outline-none"
+                  className="w-full px-4 py-4 font-bold text-slate-700 outline-none"
+                  required
                 />
               </div>
             </div>
@@ -730,28 +759,33 @@ function addSchedule(e) {
                 Password
               </label>
 
-              <div className="flex overflow-hidden rounded-2xl border bg-white shadow-sm focus-within:border-green-500">
-                <span className="grid w-14 place-items-center bg-slate-50 text-xl">
+              <div className="flex overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-100">
+                <span className="grid w-16 place-items-center bg-slate-50 text-xl">
                   🔒
                 </span>
 
                 <input
+                  name="password"
                   type="password"
                   placeholder="Create password"
                   value={authForm.password}
                   onChange={(e) =>
                     setAuthForm({ ...authForm, password: e.target.value })
                   }
-                  className="w-full px-4 py-4 font-semibold outline-none"
+                  className="w-full px-4 py-4 font-bold text-slate-700 outline-none"
+                  required
                 />
               </div>
             </div>
 
-            <button className="rounded-2xl bg-gradient-to-r from-green-700 to-green-500 py-4 text-lg font-black text-white shadow-xl transition hover:scale-[1.02]">
+            <button
+              type="submit"
+              className="rounded-3xl bg-gradient-to-r from-green-700 to-green-500 py-4 text-lg font-black text-white shadow-xl shadow-green-200 transition hover:scale-[1.02]"
+            >
               Create Account
             </button>
 
-            <p className="text-center text-sm text-slate-500">
+            <p className="text-center text-sm font-semibold text-slate-500">
               Already have an account?{" "}
               <button
                 type="button"
