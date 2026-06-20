@@ -210,21 +210,21 @@ const [feedbacks, setFeedbacks] = useState([
   },
 ]);
 
-const handleRegister = async (e) => {
-  e.preventDefault();
+// const handleRegister = async (e) => {
+//   e.preventDefault();
 
-  await fetch("https://YOUR-RENDER-URL.onrender.com/api/register/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: form.name,
-      email: form.email,
-      password: form.password,
-    }),
-  });
-};
+//   await fetch("https://YOUR-RENDER-URL.onrender.com/api/register/", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       name: form.name,
+//       email: form.email,
+//       password: form.password,
+//     }),
+//   });
+// };
 async function handleLogin(e) {
   e.preventDefault();
 
